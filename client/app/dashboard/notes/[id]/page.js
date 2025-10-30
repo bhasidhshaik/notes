@@ -40,6 +40,7 @@ export default function NoteDetailPage() {
 
   const handleDelete = async () => {
     if (!confirm("Delete this note permanently?")) return;
+     console.log("Attempting delete:", id); 
     try {
       await deleteNote.mutateAsync(id);
       toast.success("Note deleted");

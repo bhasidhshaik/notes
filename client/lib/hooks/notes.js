@@ -95,6 +95,16 @@ export const useDeleteNote = () => {
     onSettled: () => qc.invalidateQueries({ queryKey: [NOTES_KEY] }),
   });
 };
+// export const useDeleteNote = () => {
+//   return useMutation({
+//     mutationFn: async (id) => {
+//       console.log("🔥 deleteNote mutationFn triggered with id:", id);
+//       console.log("🧩 Axios baseURL:", api.defaults.baseURL);
+//       const res = await api.delete(`/notes/${id}`);
+//       return res.data;
+//     },
+//   });
+// };
 export const useDeletedNotes = () =>
   useQuery({
     queryKey: ["deleted-notes"],

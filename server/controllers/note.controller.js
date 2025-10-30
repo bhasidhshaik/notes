@@ -28,15 +28,17 @@ export const createNote = async (req, res) => {
 export const getNotes = async (req, res) => {
   try {
     const { search, tag, page = 1, limit = 10 } = req.query;
-    const query = { user: req.user._id };
 
- if (search) {
-  query.$or = [
-    { title: { $regex: search, $options: "i" } },
-    { content: { $regex: search, $options: "i" } },
-    { tags: { $regex: search, $options: "i" } },
-  ];
-}
+    // ✅ Only fetch active (non-deleted) notes
+    const query = { user: req.user._id, deleted: { $ne: true } };
+
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { content: { $regex: search, $options: "i" } },
+        { tags: { $regex: search, $options: "i" } },
+      ];
+    }
 
     if (tag) query.tags = tag;
 
@@ -61,6 +63,7 @@ export const getNotes = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 // ===================
 // GET SINGLE NOTE
